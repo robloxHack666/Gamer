@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Free Gaming PC</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,"Segoe UI",sans-serif;
+    background:#000;
+}
+
+button,input{font-family:inherit}
+button{cursor:pointer}
+
+/* ================= DESKTOP ================= */
+
+#desktop{
+    position:fixed;
+    inset:0;
+    background:
+        url("https://www.ginjfo.com/wp-content/uploads/2024/05/Windows_11_FE_N.jpg")
+        center/cover no-repeat;
+}
+
+.icons{
+    position:absolute;
+    top:15px;
+    left:12px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.icon{
+    width:90px;
+    padding:7px 3px;
+    color:white;
+    text-align:center;
+    border-radius:6px;
+    text-shadow:0 2px 5px #000;
+}
+
+.icon:hover{
+    background:rgba(255,255,255,.18);
+}
+
+.icon img{
+    width:50px;
+    height:50px;
+    object-fit:contain;
+}
+
+.icon span{
+    display:block;
+    margin-top:5px;
+    font-size:12px;
+}
+
+/* ================= TASKBAR ================= */
+
+#taskbar{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:62px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(245,245,245,.84);
+    backdrop-filter:blur(25px);
+
+    border-top:1px solid rgba(255,255,255,.8);
+
+    box-shadow:0 -5px 25px rgba(0,0,0,.3);
+
+    z-index:100000;
+}
+
+.taskApps{
+    display:flex;
+    align-items:center;
+    gap:3px;
+}
+
+.task{
+    width:46px;
+    height:46px;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:21px;
+}
+
+.task:hover{
+    background:rgba(255,255,255,.75);
+}
+
+.task img{
+    width:31px;
+    height:31px;
+    object-fit:contain;
+}
+
+.windows{
+    width:25px;
+    height:25px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:2px;
+}
+
+.windows i{
+    background:#0879d1;
+}
+
+.system{
+    position:absolute;
+    right:14px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    color:#222;
+    font-size:12px;
+}
+
+.clock{
+    min-width:75px;
+    text-align:center;
+    line-height:15px;
+}
+
+/* ================= START ================= */
+
+#start{
+    position:absolute;
+    left:50%;
+    bottom:72px;
+    transform:translate(-50%,20px);
+
+    width:620px;
+    height:520px;
+
+    padding:25px;
+
+    background:rgba(248,248,248,.95);
+    backdrop-filter:blur(30px);
+
+    border:1px solid white;
+    border-radius:17px;
+
+    box-shadow:0 30px 70px rgba(0,0,0,.45);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.18s;
+
+    z-index:99999;
+}
+
+#start.open{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,0);
+}
+
+.search{
+    width:100%;
+    height:42px;
+    border:1px solid #ddd;
+    border-radius:22px;
+    padding:0 16px;
+}
+
+.startTitle{
+    margin:25px 0 12px;
+    font-weight:bold;
+}
+
+.startGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+}
+
+.startApp{
+    height:100px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:8px;
+}
+
+.startApp:hover{
+    background:#fff;
+}
+
+.startApp img{
+    width:43px;
+    height:43px;
+    object-fit:contain;
+}
+
+.startApp span{
+    margin-top:8px;
+    font-size:12px;
+}
+
+/* ================= WINDOWS ================= */
+
+.window{
+    position:absolute;
+
+    width:900px;
+    height:600px;
+
+    left:50%;
+    top:43%;
+
+    transform:translate(-50%,-50%);
+
+    display:none;
+
+    background:#fff;
+
+    border-radius:9px;
+
+    overflow:hidden;
+
+    box-shadow:0 30px 90px rgba(0,0,0,.6);
+
+    z-index:100;
+}
+
+.window.show{
+    display:block;
+}
+
+.titlebar{
+    height:44px;
+
+    display:flex;
+    align-items:center;
+
+    background:#f7f7f7;
+
+    border-bottom:1px solid #ddd;
+}
+
+.title{
+    flex:1;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding-left:13px;
+
+    color:#222;
+    font-size:13px;
+}
+
+.title img{
+    width:21px;
+    height:21px;
+    object-fit:contain;
+}
+
+.controls{
+    height:100%;
+    display:flex;
+}
+
+.controls button{
+    width:46px;
+    height:100%;
+    border:0;
+    background:transparent;
+}
+
+.controls button:hover{
+    background:#e5e5e5;
+}
+
+.controls .close:hover{
+    background:#e81123;
+    color:white;
+}
+
+/* ================= CHROME ================= */
+
+.chromeBar{
+    height:55px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 12px;
+    background:#f2f2f2;
+    border-bottom:1px solid #ddd;
+}
+
+.chromeButton{
+    width:34px;
+    height:34px;
+    border:0;
+    border-radius:50%;
+    background:transparent;
+    font-size:19px;
+}
+
+.chromeButton:hover{
+    background:#ddd;
+}
+
+.address{
+    flex:1;
+    height:36px;
+
+    border:1px solid #d0d0d0;
+    border-radius:20px;
+
+    padding:0 15px;
+    outline:none;
+}
+
+.go{
+    height:36px;
+    border:0;
+    border-radius:18px;
+    padding:0 15px;
+    background:#1a73e8;
+    color:white;
+}
+
+.chromeContent{
+    height:calc(100% - 99px);
+}
+
+.chromeHome{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.chromeHome img{
+    width:100px;
+}
+
+/* ================= RECYCLE BIN ================= */
+
+.recycle{
+    height:calc(100% - 44px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#666;
+}
+
+.recycle img{
+    width:120px;
+}
+
+/* =========================================================
+   FORTNITE
+========================================================= */
+
+#fortnite{
+    width:1250px;
+    height:750px;
+
+    background:#070914;
+    color:#fff;
+}
+
+/* ================= LOADING ================= */
+
+#loading{
+    position:absolute;
+    left:0;
+    right:0;
+    top:44px;
+    bottom:0;
+
+    background:
+        linear-gradient(
+            0deg,
+            rgba(3,5,15,.88),
+            rgba(3,5,15,.08)
+        ),
+        url("https://cdn1.epicgames.com/offer/fn/FNBR_42-30_Fortnitemares_KeyArt_Fortnitemares_EGS_Launcher_Blade_2560x1440_2560x1440-e9efecdfb1084ebaa70632886875b674")
+        center/cover no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+
+    padding-bottom:70px;
+
+    z-index:100;
+}
+
+.connection{
+    font-size:18px;
+    font-weight:900;
+    letter-spacing:3px;
+
+    text-shadow:0 2px 12px #000;
+}
+
+.connection span{
+    animation:dots 1.2s infinite;
+}
+
+@keyframes dots{
+    0%{opacity:.15}
+    50%{opacity:1}
+    100%{opacity:.15}
+}
+
+/* ================= LOBBY ================= */
+
+#lobby{
+    position:absolute;
+    left:0;
+    right:0;
+    top:44px;
+    bottom:0;
+
+    display:none;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 35%,
+            rgba(75,88,230,.48),
+            transparent 34%
+        ),
+        radial-gradient(
+            ellipse at 20% 90%,
+            rgba(0,194,255,.20),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #071026 0%,
+            #18235a 45%,
+            #090b18 100%
+        );
+}
+
+/* Decorative lines */
+
+#lobby:before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 0 48%,
+            rgba(255,255,255,.025) 49%,
+            transparent 50%
+        );
+
+    background-size:120px 120px;
+
+    pointer-events:none;
+}
+
+/* ================= TOP MENU ================= */
+
+.topMenu{
+    position:absolute;
+
+    left:0;
+    right:0;
+    top:0;
+
+    height:72px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 25px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(4,6,18,.96),
+            rgba(4,6,18,.67)
+        );
+
+    border-bottom:1px solid rgba(255,255,255,.09);
+
+    z-index:20;
+}
+
+.fLogo{
+    font-family:Impact,Arial;
+    font-style:italic;
+    font-size:30px;
+
+    transform:skew(-9deg);
+
+    margin-right:30px;
+
+    text-shadow:
+        2px 3px 0 #000,
+        0 0 20px rgba(83,188,255,.4);
+}
+
+.menu{
+    display:flex;
+    align-items:center;
